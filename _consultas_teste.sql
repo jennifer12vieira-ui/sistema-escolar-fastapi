@@ -1,0 +1,11 @@
+USE escola_db;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+TRUNCATE TABLE matriculas;
+TRUNCATE TABLE disciplinas;
+TRUNCATE TABLE alunos;
+TRUNCATE TABLE professores;
+TRUNCATE TABLE usuarios;
+
+SET FOREIGN_KEY_CHECKS = 1;

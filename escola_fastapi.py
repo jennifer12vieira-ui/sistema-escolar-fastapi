@@ -1,0 +1,2 @@
+mkdir escola_fastapi
+cd escola_fastapi
