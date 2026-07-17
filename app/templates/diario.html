@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Diário das Disciplinas</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/css/style.css') }}?v=3"
+    >
+</head>
+
+<body>
+
+    <header class="cabecalho">
+        <div>
+            <h1>Diário das disciplinas</h1>
+
+            <p>
+                Usuário conectado:
+                <strong>{{ usuario_nome }}</strong>
+            </p>
+        </div>
+
+        <div class="acoes-cabecalho">
+
+            <a href="/sistema" class="botao-voltar">
+                Voltar
+            </a>
+
+            <form method="post" action="/logout">
+                <button type="submit" class="botao-sair">
+                    Sair
+                </button>
+            </form>
+
+        </div>
+    </header>
+
+    <main class="conteudo">
+
+        <div class="titulo-pagina">
+            <div>
+                <h2>Relatório de disciplinas</h2>
+
+                <p>
+                    Total de disciplinas:
+                    <strong>{{ disciplinas|length }}</strong>
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="botao-imprimir"
+                onclick="window.print()"
+            >
+                Imprimir diário
+            </button>
+        </div>
+
+        {% for disciplina in disciplinas %}
+
+            <section class="cartao-diario">
+
+                <div class="cabecalho-disciplina">
+
+                    <div>
+                        <span class="rotulo-disciplina">
+                            Disciplina
+                        </span>
+
+                        <h2>{{ disciplina.nome }}</h2>
+                    </div>
+
+                    <div class="dados-disciplina">
+
+                        <div>
+                            <span>Professor</span>
+                            <strong>
+                                {{ disciplina.professor.nome }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Horário</span>
+                            <strong>{{ disciplina.horario }}</strong>
+                        </div>
+
+                        <div>
+                            <span>Alunos</span>
+                            <strong>
+                                {{ disciplina.matriculas|length }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="tabela-container">
+
+                    <table class="tabela tabela-diario">
+
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Aluno</th>
+                                <th>Nota 1</th>
+                                <th>Nota 2</th>
+                                <th>Nota 3</th>
+                                <th>Nota 4</th>
+                                <th>Média</th>
+                                <th>Resultado</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for matricula in disciplina.matriculas %}
+
+                                <tr>
+                                    <td>
+                                        {{ matricula.aluno.id }}
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            {{ matricula.aluno.nome }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ "%.2f"|format(matricula.nota1) }}
+                                    </td>
+
+                                    <td>
+                                        {{ "%.2f"|format(matricula.nota2) }}
+                                    </td>
+
+                                    <td>
+                                        {{ "%.2f"|format(matricula.nota3) }}
+                                    </td>
+
+                                    <td>
+                                        {{ "%.2f"|format(matricula.nota4) }}
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            {{ "%.2f"|format(matricula.media) }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {% if matricula.resultado_final == "APROVADO" %}
+
+                                            <span class="situacao aprovado">
+                                                APROVADO
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="situacao reprovado">
+                                                REPROVADO
+                                            </span>
+
+                                        {% endif %}
+                                    </td>
+                                </tr>
+
+                            {% else %}
+
+                                <tr>
+                                    <td
+                                        colspan="8"
+                                        class="sem-registros"
+                                    >
+                                        Nenhum aluno matriculado nesta
+                                        disciplina.
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        {% else %}
+
+            <div class="aviso-vazio">
+                Nenhuma disciplina cadastrada.
+            </div>
+
+        {% endfor %}
+
+    </main>
+
+</body>
+</html>

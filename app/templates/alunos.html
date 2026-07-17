@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Alunos - Sistema Escolar</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="cabecalho">
+        <div>
+            <h1>Alunos cadastrados</h1>
+
+            <p>
+                Usuário conectado:
+                <strong>{{ usuario_nome }}</strong>
+            </p>
+        </div>
+
+        <div class="acoes-cabecalho">
+            <a href="/sistema" class="botao-voltar">
+                Voltar
+            </a>
+
+            <form method="post" action="/logout">
+                <button type="submit" class="botao-sair">
+                    Sair
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <main class="conteudo">
+
+        <div class="titulo-pagina">
+            <div>
+                <h2>Lista de alunos</h2>
+
+                <p>
+                    Total de alunos cadastrados:
+                    <strong>{{ alunos|length }}</strong>
+                </p>
+            </div>
+        </div>
+
+        <div class="tabela-container">
+
+            <table class="tabela">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Endereço</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+                        <th>Telefone</th>
+                        <th>Relatório</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for aluno in alunos %}
+                        <tr>
+                            <td>{{ aluno.id }}</td>
+
+                            <td>
+                                <strong>{{ aluno.nome }}</strong>
+                            </td>
+
+                            <td>
+                                {{ aluno.rua }},
+                                {{ aluno.numero }} -
+                                {{ aluno.bairro }}
+                            </td>
+
+                            <td>{{ aluno.cidade }}</td>
+
+                            <td>{{ aluno.estado }}</td>
+
+                            <td>{{ aluno.telefone }}</td>
+
+                            <td>
+                                <a
+                                    href="/alunos/{{ aluno.id }}/relatorio"
+                                    class="botao-relatorio"
+                                >
+                                    Ver relatório
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="sem-registros">
+                                Nenhum aluno cadastrado.
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

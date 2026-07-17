@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Relatório do Aluno - Sistema Escolar</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="cabecalho">
+        <div>
+            <h1>Atestado de matrícula</h1>
+
+            <p>
+                Usuário conectado:
+                <strong>{{ usuario_nome }}</strong>
+            </p>
+        </div>
+
+        <div class="acoes-cabecalho">
+
+            <a href="/alunos" class="botao-voltar">
+                Voltar
+            </a>
+
+            <form method="post" action="/logout">
+                <button type="submit" class="botao-sair">
+                    Sair
+                </button>
+            </form>
+
+        </div>
+    </header>
+
+    <main class="conteudo">
+
+        <section class="cabecalho-relatorio">
+
+            <div>
+                <span class="rotulo">Aluno</span>
+
+                <h2>{{ aluno.nome }}</h2>
+            </div>
+
+            <div class="informacao-relatorio">
+                <span class="rotulo">Código</span>
+                <strong>{{ aluno.id }}</strong>
+            </div>
+
+            <div class="informacao-relatorio">
+                <span class="rotulo">Disciplinas</span>
+                <strong>{{ matriculas|length }}</strong>
+            </div>
+
+        </section>
+
+        <section class="dados-aluno">
+
+            <h3>Dados do aluno</h3>
+
+            <div class="grade-dados">
+
+                <div>
+                    <span class="rotulo">Endereço</span>
+
+                    <p>
+                        {{ aluno.rua }}, {{ aluno.numero }}
+                        — {{ aluno.bairro }}
+                    </p>
+                </div>
+
+                <div>
+                    <span class="rotulo">Cidade</span>
+
+                    <p>
+                        {{ aluno.cidade }} - {{ aluno.estado }}
+                    </p>
+                </div>
+
+                <div>
+                    <span class="rotulo">Telefone</span>
+
+                    <p>{{ aluno.telefone }}</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section>
+
+            <div class="titulo-pagina">
+                <div>
+                    <h2>Disciplinas matriculadas</h2>
+
+                    <p>
+                        Notas e resultado final de cada disciplina.
+                    </p>
+                </div>
+            </div>
+
+            <div class="tabela-container">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Disciplina</th>
+                            <th>Horário</th>
+                            <th>Nota 1</th>
+                            <th>Nota 2</th>
+                            <th>Nota 3</th>
+                            <th>Nota 4</th>
+                            <th>Média</th>
+                            <th>Resultado</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for matricula in matriculas %}
+
+                            <tr>
+                                <td>
+                                    <strong>
+                                        {{ matricula.disciplina.nome }}
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    {{ matricula.disciplina.horario }}
+                                </td>
+
+                                <td>
+                                    {{ "%.2f"|format(matricula.nota1) }}
+                                </td>
+
+                                <td>
+                                    {{ "%.2f"|format(matricula.nota2) }}
+                                </td>
+
+                                <td>
+                                    {{ "%.2f"|format(matricula.nota3) }}
+                                </td>
+
+                                <td>
+                                    {{ "%.2f"|format(matricula.nota4) }}
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        {{ "%.2f"|format(matricula.media) }}
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    {% if matricula.resultado_final == "APROVADO" %}
+
+                                        <span class="situacao aprovado">
+                                            APROVADO
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="situacao reprovado">
+                                            REPROVADO
+                                        </span>
+
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                        {% else %}
+
+                            <tr>
+                                <td
+                                    colspan="8"
+                                    class="sem-registros"
+                                >
+                                    O aluno não possui disciplinas
+                                    matriculadas.
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <section class="rodape-relatorio">
+
+            <p>
+                Este documento apresenta as disciplinas e notas
+                cadastradas no Sistema Escolar.
+            </p>
+
+            <button
+                type="button"
+                class="botao-imprimir"
+                onclick="window.print()"
+            >
+                Imprimir relatório
+            </button>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Sistema Escolar</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="cabecalho">
+        <div>
+            <h1>Sistema Escolar</h1>
+
+            <p>
+                Usuário conectado:
+                <strong>{{ usuario_nome }}</strong>
+            </p>
+        </div>
+
+        <form method="post" action="/logout">
+            <button type="submit" class="botao-sair">
+                Sair
+            </button>
+        </form>
+    </header>
+
+    <main class="conteudo">
+
+        <h2>Painel principal</h2>
+
+        <div class="grade-menu">
+
+            <<a href="/alunos" class="cartao">
+                <h3>Alunos</h3>
+             <p>Consultar todos os alunos cadastrados.</p>
+            </a>
+
+            <a href="/professores" class="cartao">
+                <h3>Professores</h3>
+                <p>Consultar todos os professores cadastrados.</p>
+            </a>
+
+            <a href="/disciplinas/diario" class="cartao">
+             <h3>Diário das disciplinas</h3>
+             <p>Visualizar alunos, notas e resultados.</p>
+            </a>
+
+            <a href="/docs" class="cartao">
+                <h3>Documentação da API</h3>
+                <p>Acessar e testar as rotas pelo Swagger.</p>
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

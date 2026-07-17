@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Professores - Sistema Escolar</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="cabecalho">
+        <div>
+            <h1>Professores cadastrados</h1>
+
+            <p>
+                Usuário conectado:
+                <strong>{{ usuario_nome }}</strong>
+            </p>
+        </div>
+
+        <div class="acoes-cabecalho">
+
+            <a href="/sistema" class="botao-voltar">
+                Voltar
+            </a>
+
+            <form method="post" action="/logout">
+                <button type="submit" class="botao-sair">
+                    Sair
+                </button>
+            </form>
+
+        </div>
+    </header>
+
+    <main class="conteudo">
+
+        <div class="titulo-pagina">
+            <div>
+                <h2>Lista de professores</h2>
+
+                <p>
+                    Total de professores cadastrados:
+                    <strong>{{ professores|length }}</strong>
+                </p>
+            </div>
+        </div>
+
+        <div class="tabela-container">
+
+            <table class="tabela">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Endereço</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+                        <th>Telefone</th>
+                        <th>Disciplinas</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for professor in professores %}
+
+                        <tr>
+                            <td>{{ professor.id }}</td>
+
+                            <td>
+                                <strong>{{ professor.nome }}</strong>
+                            </td>
+
+                            <td>
+                                {{ professor.rua }},
+                                {{ professor.numero }} -
+                                {{ professor.bairro }}
+                            </td>
+
+                            <td>{{ professor.cidade }}</td>
+
+                            <td>{{ professor.estado }}</td>
+
+                            <td>{{ professor.telefone }}</td>
+
+                            <td>
+                                {% if professor.disciplinas %}
+
+                                    {% for disciplina in professor.disciplinas %}
+                                        <span class="etiqueta-disciplina">
+                                            {{ disciplina.nome }}
+                                        </span>
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <span class="texto-secundario">
+                                        Nenhuma disciplina
+                                    </span>
+
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+                            <td colspan="7" class="sem-registros">
+                                Nenhum professor cadastrado.
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

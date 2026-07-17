@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login - Sistema Escolar</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/css/style.css') }}"
+    >
+</head>
+
+<body class="pagina-login">
+
+    <main class="caixa-login">
+
+        <h1>Sistema Escolar</h1>
+
+        <p class="subtitulo">
+            Entre com seu usuário e sua senha.
+        </p>
+
+        {% if erro %}
+            <div class="mensagem-erro">
+                {{ erro }}
+            </div>
+        {% endif %}
+
+        <form method="post" action="/login">
+
+            <div class="campo">
+                <label for="usuario">Usuário</label>
+
+                <input
+                    type="text"
+                    id="usuario"
+                    name="usuario"
+                    required
+                    autocomplete="username"
+                >
+            </div>
+
+            <div class="campo">
+                <label for="senha">Senha</label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    name="senha"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <button type="submit">
+                Entrar
+            </button>
+
+        </form>
+
+        <p class="credenciais">
+            Usuário de teste: <strong>admin</strong><br>
+            Senha: <strong>admin123</strong>
+        </p>
+
+    </main>
+
+</body>
+</html>
